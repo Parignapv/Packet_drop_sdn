@@ -165,18 +165,21 @@ cookie=0x0, duration=42.479s, table=0, n\_packets=3, n\_bytes=210, priority=1,in
 cookie=0x0, duration=44.158s, table=0, n\_packets=8, n\_bytes=652, priority=0 actions=CONTROLLER:65535
 
 
+## Regression Testing
 
-```
+After implementing the packet drop rule (blocking traffic from h1 to h2), regression testing was performed to ensure that other network communications were not affected.
 
+| Test Case | Before Change | After Change | Result     |
+| --------- | ------------- | ------------ | -----------|
+| h1 → h2   | Allowed       | Blocked      | Expected   |
+| h2 → h1   | Allowed       | Allowed      | Unaffected |
+| h3 → h1   | Allowed       | Allowed      | Unaffected |
+| h1 → h3   | Allowed       | Allowed      | Unaffected |
 
-
-\---
-
+This confirms that only the intended traffic (h1 → h2) is blocked, while all other communications continue to function normally.
 
 
 \## Conclusion
-
-
 
 This experiment demonstrates how SDN can control network behavior by selectively dropping packets using match-action rules.
 
